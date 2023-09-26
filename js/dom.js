@@ -51,6 +51,8 @@ const userName = document.getElementById('username');
 //    userName.textContent = e.target.value;
 // })
 
+const profileBtn = document.getElementById('ProfileBtn');
+
 const users = [
     {
         id: 1,
@@ -97,7 +99,7 @@ function createDescription (){
     const userElements = {
         user_name: document.createElement('h2'),
         age: document.createElement('h3'),
-        description: document.createElement("p"), 
+        description: document.createElement("p"),
         bands: [],
     };
     return userElements;
@@ -143,3 +145,36 @@ users.forEach(user => {
  * 2.- Obtener la info del usuario desde inputs y mostrar en tarjeta.
  * AL menos deben tener 2 commits
 */
+
+//Creamos una funcion flecha con los pasametros user y llamamos a userElements para formato
+const createUserCard = (user, userElements) => {
+    //Le asignamos texto contenido de user a: user_name,age y description
+    userElements.user_name.textContent = user.user_name; 
+    userElements.age.textContent = user.age;
+    userElements.description.textContent = user.description;
+    return userElements; //Retornamos el valor de userElements por que se ocupara despues.
+}
+
+//Creamos una constante para conseguir el documento por ID que es "edad y description"
+const ageEntrada = document.getElementById('edad');
+const descriptionEntrada = document.getElementById('description');
+profileBtn.addEventListener('click', () => {
+    //En el boton creamos el objeto newuser, para obtener los valores de entrada del nombre,
+    //description y age.
+    const newUser = { 
+        user_name: inputName.value,
+        description: descriptionEntrada.value,
+        age: ageEntrada.value
+    }
+    users.push(newUser) //Se le agregaran a usuarios los datos obtenidos en newUser.
+    const card = createCard(); //llamamos la funcion para crear la carta
+    const userElements = createDescription(); //llamamos la funcion de crear descripcion
+
+    //Se crea una constante con asignacion de la funcion createUserCard con los 
+    //parametros: newuser y userElements
+    const elementsWithData = createUserCard(newUser, userElements);
+    //llamamos la funcion con los parametros card y elementsWithData
+    renderedElements(card, elementsWithData);
+    //lo que se obtiene en la card se le agregara en la Card section
+    CARD_SECTION.append(card);
+})
